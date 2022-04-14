@@ -61,8 +61,8 @@ class BasicDAO:
             with self._engine.connect() as connection:
                 connection.execute(query)
                 connection.commit()
-        except Exception:
-            raise DatabaseError
+        except Exception as e:
+            raise DatabaseError(e)
 
         return self.get_one(pk)
 
