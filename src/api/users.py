@@ -30,10 +30,10 @@ def get_all_users(
     description='Возвращает информацию о пользователе.'
 )
 def get_user(
-        uid: int = Path(..., ge=1),
+        id: int = Path(..., ge=1),
         user_service: UserServiceProtocol = Depends()
 ):
-    return user_service.get_one(uid)
+    return user_service.get_one(id)
 
 
 @router.put(

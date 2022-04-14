@@ -12,6 +12,7 @@ class UserResponseV1(BaseModel):
 
 
 class UserRequestV1(BaseModel):
+    id: int
     login: str
     name: str
 

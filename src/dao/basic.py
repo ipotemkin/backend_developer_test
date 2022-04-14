@@ -25,8 +25,8 @@ class BasicDAO:
 
         return [self.schema_safe(**item_data) for item_data in items_data]
 
-    def get_one(self, pk: int):
-        query = select(self.model).where(self.model.c.id == pk)
+    def get_one(self, id: int):
+        query = select(self.model).where(self.model.c.id == id)
         with self._engine.connect() as connection:
             item_data = connection.execute(query).first()
 
