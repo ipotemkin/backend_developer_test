@@ -13,9 +13,10 @@ users = sa.Table(
 stats = sa.Table(
     'stats',
     metadata,
-    sa.Column('user_id', sa.BigInteger, sa.ForeignKey('user.id'), nullable=False),
-    sa.Column('repo_id', sa.BigInteger, primary_key=True),
-    sa.Column('date', sa.Date, nullable=False, primary_key=True),
+    sa.Column('id', sa.BigInteger, primary_key=True),  # TODO add comments on altering repo_id to id
+    sa.Column('user_id', sa.BigInteger, sa.ForeignKey('user.id'), nullable=False),  # TODO add cascade
+    sa.Column('repo_id', sa.BigInteger, nullable=True),  # TODO add comments on altering repo_id to id
+    sa.Column('date', sa.Date, nullable=False),
     sa.Column('stargazers', sa.Integer, nullable=False),
     sa.Column('forks', sa.Integer, nullable=False),
     sa.Column('watchers', sa.Integer, nullable=False)

@@ -11,7 +11,8 @@ def get_application() -> FastAPI:
     application = FastAPI(
         title='GitHub Repo Stats',
         description='Сервис сбора статистических данных о популярности репозиториев на GitHub.',
-        version='1.0.0'
+        version='1.0.0',
+        docs_url="/",  # TODO comments
     )
 
     application.include_router(users.router)
