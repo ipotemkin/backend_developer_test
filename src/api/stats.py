@@ -61,14 +61,14 @@ def delete_stats(
 
 
 @router.patch(
-    path='/v1/stats/{stat_id}',
+    path='/v1/stats/{id}',
     response_model=StatResponseV1,
     summary='Изменить запись о репозитории',
     description='Изменяет запись о репозитории.'
 )
 def update_stats_by_id(
         stat_data: StatUpdateRequestV1,
-        stat_id: int = Path(..., ge=1),
+        id: int = Path(..., ge=1),
         stat_service: StatServiceProtocol = Depends(),
 ):
-    return stat_service.update(stat_id, stat_data)
+    return stat_service.update(id, stat_data)

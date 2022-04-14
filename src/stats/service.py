@@ -1,5 +1,5 @@
 from sqlalchemy.future import Engine
-from sqlalchemy import select, insert, delete
+from sqlalchemy import select
 
 from src.dao.basic import BasicDAO
 from src.database.tables import stats
@@ -32,4 +32,3 @@ class StatService(BasicDAO):
             items.append(stat)
 
         return items
-        # return [StatResponseV1(**stat_data) for stat_data in stats_data]
