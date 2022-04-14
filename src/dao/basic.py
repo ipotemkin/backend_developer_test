@@ -1,7 +1,5 @@
 from typing import List
 
-from fastapi.responses import JSONResponse
-
 from sqlalchemy import select, insert, delete, update
 from sqlalchemy.future import Engine
 
