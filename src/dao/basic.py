@@ -1,5 +1,7 @@
 from typing import List
 
+from fastapi.responses import JSONResponse
+
 from sqlalchemy import select, insert, delete, update
 from sqlalchemy.future import Engine
 
@@ -39,9 +41,12 @@ class BasicDAO:
     def create(self, item) -> None:
         query = insert(self.model).values(**item.dict(exclude={"id"}))
 
-        with self._engine.connect() as connection:
-            connection.execute(query)
-            connection.commit()
+        try:
+            with self._engine.connect() as connection:
+                connection.execute(query)
+                connection.commit()
+        except Exception as e:
+            raise DatabaseError(e)
 
     def update(self, pk: int, item):
         if not item:
