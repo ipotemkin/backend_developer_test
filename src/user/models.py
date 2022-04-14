@@ -11,10 +11,15 @@ class UserResponseV1(BaseModel):
     name: str
 
 
-class UserAddRequestV1(BaseModel):
-    id: Optional[int]
+class UserRequestV1(BaseModel):
     login: str
     name: str
+
+
+class UserUpdateRequestV1(BaseModel):
+    id: Optional[int]
+    login: Optional[str]
+    name: Optional[str]
 
 
 class UserStatsResponseV1(BaseModel):

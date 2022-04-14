@@ -4,7 +4,7 @@ from datetime import date
 from fastapi import APIRouter, status, Depends, Path, Query
 
 from src.api.protocols import UserServiceProtocol, StatServiceProtocol
-from src.user.models import UserResponseV1, UserAddRequestV1, UserStatsResponseV1
+from src.user.models import UserResponseV1, UserStatsResponseV1, UserRequestV1
 
 router = APIRouter(
     tags=['Users']
@@ -43,7 +43,7 @@ def get_user(
     description='Добавляет пользователя для отслеживания популярности репозиториев.',
 )
 def add_user(
-        user_data: UserAddRequestV1,
+        user_data: UserRequestV1,
         user_service: UserServiceProtocol = Depends()
 ):
     user_service.create(user_data)

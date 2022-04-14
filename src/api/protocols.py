@@ -1,7 +1,7 @@
 from typing import List
 
-from src.user.models import UserResponseV1, UserAddRequestV1
-from src.stats.models import StatResponseV1
+from src.user.models import UserResponseV1, UserRequestV1, UserUpdateRequestV1
+from src.stats.models import StatResponseV1, StatRequestV1
 
 
 class UserServiceProtocol:
@@ -11,7 +11,10 @@ class UserServiceProtocol:
     def get_one(self, id: int) -> UserResponseV1:
         raise NotImplementedError
 
-    def create(self, user: UserAddRequestV1) -> None:
+    def create(self, user: UserRequestV1) -> None:
+        raise NotImplementedError
+
+    def update(self, user: UserUpdateRequestV1) -> UserResponseV1:
         raise NotImplementedError
 
     def delete(self, id: int) -> None:
@@ -22,10 +25,13 @@ class StatServiceProtocol:
     def get_all(self) -> List[StatResponseV1]:
         raise NotImplementedError
 
-    def get_one(self, id: int) -> UserResponseV1:
+    def get_one(self, id: int) -> StatResponseV1:
         raise NotImplementedError
 
-    def create(self, user: UserAddRequestV1) -> None:
+    def create(self, user: StatRequestV1) -> None:
+        raise NotImplementedError
+
+    def update(self, user: StatRequestV1) -> StatResponseV1:
         raise NotImplementedError
 
     def delete(self, id: int) -> None:

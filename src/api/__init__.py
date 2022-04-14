@@ -21,9 +21,15 @@ from src.user.service import UserService
 def get_application() -> FastAPI:
     application = FastAPI(
         title='GitHub Repo Stats',
-        description='Сервис сбора статистических данных о популярности репозиториев на GitHub.',
+        description="""
+Сервис сбора статистических данных о популярности репозиториев на GitHub.\n
+Подготовлено в рамках тестового задания для компании FullEx""",
         version='1.0.0',
-        docs_url="/",  # TODO comments
+        contact={
+            "name": "Igor Potemkin",
+            "email": "ipotemkin@rambler.ru",
+        },
+        docs_url="/",
     )
 
     application.include_router(users.router)

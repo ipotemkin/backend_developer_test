@@ -1,9 +1,8 @@
 from typing import List
 
 from fastapi import APIRouter, status, Depends, Path
-from fastapi.responses import JSONResponse
 
-from src.api.protocols import StatServiceProtocol, UserServiceProtocol
+from src.api.protocols import StatServiceProtocol
 from src.stats.models import StatResponseV1, StatUpdateRequestV1, StatRequestV1
 
 router = APIRouter(
@@ -69,10 +68,7 @@ def delete_stats(
 )
 def update_stats_by_id(
         stat_data: StatUpdateRequestV1,
-        # uid: int = Path(..., ge=1),
         stat_id: int = Path(..., ge=1),
         stat_service: StatServiceProtocol = Depends(),
-        user_service: UserServiceProtocol = Depends(),
 ):
-    # user = user_service.get_one(uid)
     return stat_service.update(stat_id, stat_data)
