@@ -26,9 +26,4 @@ class StatService(BasicDAO):
         with self._engine.connect() as connection:
             stats_data = connection.execute(query)
 
-        # items = []
-        # for stat_data in stats_data:
-        #     stat = StatResponseV1(**stat_data)
-        #     items.append(stat)
-        #
         return [StatResponseV1(**stat_data) for stat_data in stats_data]
