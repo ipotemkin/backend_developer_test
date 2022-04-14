@@ -23,7 +23,7 @@ def get_application() -> FastAPI:
         title='GitHub Repo Stats',
         description="""
 Сервис сбора статистических данных о популярности репозиториев на GitHub.\n
-Подготовлено в рамках тестового задания для компании FullEx""",
+Подготовлено в рамках тестового задания для компании FulEx""",
         version='1.0.0',
         contact={
             "name": "Igor Potemkin",
