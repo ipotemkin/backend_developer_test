@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi_utils.tasks import repeat_every
 
-from src.github_api import get_github_repos_by_login, update_stats
+from src.github_api import get_github_repos_by_login, update_stats, update_stats_for_user
 
 import src.api.protocols
 from src.api import users, protocols, stats
@@ -58,9 +58,9 @@ async def on_startup():
     stat_service = StatService(engine)
     user_service = UserService(engine)
     _users = user_service.get_all()
+
     for user in _users:
-        repos = await get_github_repos_by_login(user.login)
-        update_stats(user.id, repos, stat_service)
+        await update_stats_for_user(user.login, user.id, stat_service)
 
 
 # exception handlers

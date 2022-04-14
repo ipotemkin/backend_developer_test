@@ -36,3 +36,6 @@ def update_stats(
         stat_service.create(stat_data)
 
 
+async def update_stats_for_user(login: str, user_id: int, stat_service):
+    repos = await get_github_repos_by_login(login)
+    update_stats(user_id, repos, stat_service)
