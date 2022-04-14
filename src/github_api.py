@@ -15,13 +15,15 @@ class GitHubData(BaseModel):
     watchers: int = Field(None, alias='watchers_count')
 
 
-async def get_github_repos_by_login(login: str) -> List[dict]:
+async def update_repos_by_login(login: str, user_id: int, stat_service) -> None:
     url = f'https://api.github.com/users/{login}/repos'
 
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as resp:
             response = await resp.json()
-            return [GitHubData.parse_obj(repo).dict() for repo in response]
+            if resp.status == 200:
+                repos = [GitHubData.parse_obj(repo).dict() for repo in response]
+                update_stats(user_id, repos, stat_service)
 
 
 def update_stats(
@@ -34,8 +36,3 @@ def update_stats(
         repo['user_id'] = user_id
         stat_data = StatRequestV1.parse_obj(repo)
         stat_service.create(stat_data)
-
-
-async def update_stats_for_user(login: str, user_id: int, stat_service):
-    repos = await get_github_repos_by_login(login)
-    update_stats(user_id, repos, stat_service)

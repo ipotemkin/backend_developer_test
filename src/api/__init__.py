@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi_utils.tasks import repeat_every
 
-from src.github_api import get_github_repos_by_login, update_stats, update_stats_for_user
+from src.github_api import update_repos_by_login
 
 import src.api.protocols
 from src.api import users, protocols, stats
@@ -53,14 +53,13 @@ app = get_application()
 @repeat_every(seconds=60 * 60 * 24)  # sets an interval for updating DB
 async def on_startup():
 
-    # TODO This code should be refactored
     engine = get_engine()
     stat_service = StatService(engine)
     user_service = UserService(engine)
     _users = user_service.get_all()
 
     for user in _users:
-        await update_stats_for_user(user.login, user.id, stat_service)
+        await update_repos_by_login(user.login, user.id, stat_service)
 
 
 # exception handlers
