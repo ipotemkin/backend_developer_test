@@ -18,10 +18,12 @@ class GitHubData(BaseModel):
 async def update_repos_by_login(login: str, user_id: int, stat_service) -> None:
     url = f'https://api.github.com/users/{login}/repos'
 
+    # breakpoint()
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as resp:
-            print(f'обновляем статистику для login:{login}, user_id:{user_id}')
+            # print(f'обновляем статистику для login:{login}, user_id:{user_id}')
             response = await resp.json()
+            # print(f'resp.status = {resp.status}')
             if resp.status == 200:
                 repos = [GitHubData.parse_obj(repo).dict() for repo in response]
                 update_stats(user_id, repos, stat_service)
@@ -33,7 +35,7 @@ def update_stats(
         stat_service
 ):
     for repo in repos:
-        repo['date'] = datetime.now().date
+        repo['date'] = datetime.now().date()
         repo['user_id'] = user_id
         stat_data = StatRequestV1.parse_obj(repo)
 

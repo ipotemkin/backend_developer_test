@@ -50,7 +50,7 @@ app = get_application()
 
 
 @app.on_event("startup")
-@repeat_every(seconds=60 * 60 * 24)  # sets an interval for updating DB
+# @repeat_every(seconds=60 * 60 * 24)  # sets an interval for updating DB
 async def on_startup():
 
     engine = get_engine()
@@ -59,6 +59,7 @@ async def on_startup():
     _users = user_service.get_all()
 
     for user in _users:
+        print(f'user.login = {user.login}')
         await update_repos_by_login(user.login, user.id, stat_service)
 
 
