@@ -20,6 +20,7 @@ async def update_repos_by_login(login: str, user_id: int, stat_service) -> None:
 
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as resp:
+            print(f'обновляем статистику для login:{login}, user_id:{user_id}')
             response = await resp.json()
             if resp.status == 200:
                 repos = [GitHubData.parse_obj(repo).dict() for repo in response]
@@ -32,11 +33,11 @@ def update_stats(
         stat_service
 ):
     for repo in repos:
-        repo['date'] = datetime.now()
+        repo['date'] = datetime.now().date
         repo['user_id'] = user_id
         stat_data = StatRequestV1.parse_obj(repo)
 
-        res = stat_service.update_by_filter(
+        stat_service.update_or_create(
             {
                 'date': repo['date'],
                 'user_id': repo['user_id'],
@@ -44,7 +45,3 @@ def update_stats(
             },
             stat_data
         )
-        print('res in update_stats')
-        print(res)
-        if not res:
-            stat_service.create(stat_data)
