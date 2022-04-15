@@ -58,8 +58,8 @@ async def on_startup():
     user_service = UserService(engine)
     _users = user_service.get_all()
 
-    for user in _users:
-        await update_repos_by_login(user.login, user.id, stat_service)
+    # for user in _users:
+    #     await update_repos_by_login(user.login, user.id, stat_service)
 
 
 # exception handlers

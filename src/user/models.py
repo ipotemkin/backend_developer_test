@@ -11,8 +11,13 @@ class UserResponseV1(BaseModel):
     name: str
 
 
+class UserResponseListV1(BaseModel):
+    id: Optional[int]
+    login: str
+
+
 class UserRequestV1(BaseModel):
-    id: int
+    id: Optional[int]
     login: str
     name: str
 
@@ -25,4 +30,5 @@ class UserUpdateRequestV1(BaseModel):
 
 class UserStatsResponseV1(BaseModel):
     user: UserResponseV1
+    summary: dict
     stats: List[StatResponseV1]

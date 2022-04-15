@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 
 class StatResponseV1(BaseModel):
+    id: Optional[int]
     repo_id: int
     date: date
     stargazers: int
@@ -12,13 +13,15 @@ class StatResponseV1(BaseModel):
     watchers: int
 
 
-class StatRequestV1(BaseModel):
+class StatResponseListV1(BaseModel):
+    id: Optional[int]
     repo_id: int
     user_id: int
     date: date
-    stargazers: int
-    forks: int
-    watchers: int
+
+
+class StatRequestV1(StatResponseV1):
+    user_id: int
 
 
 class StatUpdateRequestV1(BaseModel):

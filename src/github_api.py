@@ -35,4 +35,16 @@ def update_stats(
         repo['date'] = datetime.now()
         repo['user_id'] = user_id
         stat_data = StatRequestV1.parse_obj(repo)
-        stat_service.create(stat_data)
+
+        res = stat_service.update_by_filter(
+            {
+                'date': repo['date'],
+                'user_id': repo['user_id'],
+                'repo_id': repo['repo_id'],
+            },
+            stat_data
+        )
+        print('res in update_stats')
+        print(res)
+        if not res:
+            stat_service.create(stat_data)

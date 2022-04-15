@@ -4,7 +4,7 @@ from datetime import date
 from fastapi import APIRouter, status, Depends, Path, Query
 
 from src.api.protocols import UserServiceProtocol, StatServiceProtocol
-from src.user.models import UserResponseV1, UserStatsResponseV1, UserRequestV1
+from src.user.models import UserResponseV1, UserStatsResponseV1, UserRequestV1, UserResponseListV1
 
 router = APIRouter(
     tags=['Users']
@@ -13,13 +13,27 @@ router = APIRouter(
 
 @router.get(
     path='/v1/users',
-    response_model=List[UserResponseV1],
+    response_model=List[UserResponseListV1],
     summary='Список пользователей',
     description='Возвращает список всех пользователей.'
 )
 def get_all_users(
+        user_login: Optional[str] = Query(
+            None, title="Login пользователя", description="Укажите login пользователя"
+        ),
+        user_name: Optional[str] = Query(
+            None, title="Имя пользователя", description="Укажите имя пользователя"
+        ),
         user_service: UserServiceProtocol = Depends()
 ):
+    request_d = {}
+    if user_login:
+        request_d["login"] = user_login
+    if user_name:
+        request_d["name"] = user_name
+    if request_d:
+        return user_service.filter(request_d)
+        # return user_service.execute_sql(user_login)
     return user_service.get_all()
 
 
@@ -81,5 +95,14 @@ def get_user_stats(
 ):
     user = user_service.get_one(id)
     stats = stat_service.get_stats_by_user_id(id, date_from, date_to)
+    records_count = len(stats)
+    repos_count = len(set([record.repo_id for record in stats]))
 
-    return {'user': user, 'stats': stats}
+    return {
+        'user': user,
+        'summary': {
+            'records_count': records_count,
+            'repos_count': repos_count
+        },
+        'stats': stats
+    }
